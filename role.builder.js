@@ -2,7 +2,6 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
         // Wenn kein gültiger State oder keine keine Energy vorhanden ist, bekommt er ein Mining State
 	    if((!creep.memory.state in ['🔄', '🚧', '🔧']) || creep.carry.energy == 0) {
             creep.memory.state = '🔄';

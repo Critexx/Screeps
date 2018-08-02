@@ -1,4 +1,3 @@
-var settings = require('settings');
 var memoryCleaner = require('memoryCleaner');
 var roleMiner = require('role.miner');
 var roleSecondMiner = require('role.secondMiner');
@@ -14,11 +13,11 @@ module.exports.loop = function () {
     
     memoryCleaner.run();
     // Anzahl Creeps in Memory ablegen
-    Memory.countMiner = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner').length;
-	Memory.countSecondMiner = _.filter(Game.creeps, (creep) => creep.memory.role == 'secondMiner').length;
-    Memory.countBuilder = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder').length;
-    Memory.countUpgrader = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader').length;
-	Memory.countRepairer = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer').length;
+    Memory.countMinerAlive = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner').length;
+	Memory.countSecondMinerAlive = _.filter(Game.creeps, (creep) => creep.memory.role == 'secondMiner').length;
+    Memory.countBuilderAlive = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder').length;
+    Memory.countUpgraderAlive = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader').length;
+	Memory.countRepairerAlive = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer').length;
 	
 	// Wieviel Energy im Room verfügbar ist
 	Memory.energyAvailable = Game.spawns['Crit1'].room.energyAvailable;
@@ -47,6 +46,7 @@ module.exports.loop = function () {
     // creep Funktionen Übergabe
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
+        
         if(creep.memory.role == 'miner') {
             roleMiner.run(creep);
         }
