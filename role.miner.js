@@ -4,9 +4,9 @@ var roleMiners = {
     run: function(creep) {
 		// miner sammeln solange, bis sie voll sind.
 		// TODO: Statesystem einbauen, da sie sonst, wenn sie nur einen Teil ihres Carrys in die Extension verfrachtet haben, gleich wieder zurück minen gehn -> travel waste
-	    if(creep.carry.energy < creep.carryCapacity) {
+	    if (creep.carry.energy < creep.carryCapacity) {
             var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
+            if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
             }
             
@@ -21,8 +21,8 @@ var roleMiners = {
                     }
             });
 			// wenn Platz vorhanden ist, geht er dorthin und tranferiert die Energy
-            if(extensionsOrSpawn) {
-                if(creep.transfer(extensionsOrSpawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            if (extensionsOrSpawn) {
+                if (creep.transfer(extensionsOrSpawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(extensionsOrSpawn, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
@@ -47,13 +47,12 @@ var roleMiners = {
 				
 				// wenn der Controller keine regelmässigen Upgrade bekommt, wird der Container für den Controller gefüllt
 				var controller = creep.room.controller;
-				if(towers.length > 0 && (controller.ticksToDowngrade > Math.pow(controller.level, 2) * 1000)) {
+				if (towers.length > 0 && (controller.ticksToDowngrade > Math.pow(controller.level, 2) * 1000)) {
 					towers.sort((a,b) => a.hits - b.hits);
-					if(creep.transfer(towers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+					if (creep.transfer(towers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
 						creep.moveTo(towers[0], {visualizePathStyle: {stroke: '#ffffff'}});
 					}
-				}
-				else {
+				} else {
 					var container = creep.room.find(FIND_STRUCTURES, {
 						filter: (structure) => {
 							return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] < structure.storeCapacity);
@@ -61,9 +60,26 @@ var roleMiners = {
 					});
 					// wenn ein freier Container zur Verfügung steht, transferiert er die Energy in den Container
 					// TODO: Danach macht er nichts und steht nur rum. Allenfalls blockiert er dadurch andere creeps -> deshalb später einen "Waiting Spot" via Flag definieren
-					if(container.length > 0) {
-						if(creep.transfer(container[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+					if (container.length > 0) {
+						if (creep.transfer(container[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
 							creep.moveTo(container[0], {visualizePathStyle: {stroke: '#ffffff'}});
+						}
+					} 
+					/*  Wenn alle Spawns und Extensions voll sind, aber kein Container vorhanden ist, hilft der Miner den Container zu bauen.
+					 *  Er baut immer nur 1 Tick und holt dann wieder Ressource, weil das Bauen nur zweitrangig ist und
+					 *  er ready sein muss, wenn er gebraucht wird.
+					 */
+					else {
+						var containersToBuild = creep.room.find(FIND_CONSTRUCTION_SITES, {
+							filter: (structure) => {
+								return (structure.structureType == STRUCTURE_CONTAINER);
+							}
+						});
+						if(containersToBuild.length) {
+							//creep.memory.state = '🚧';
+							if(creep.build(containersToBuild[0]) == ERR_NOT_IN_RANGE) {
+								creep.moveTo(containersToBuild[0], {visualizePathStyle: {stroke: '#ffffff'}});
+							}
 						}
 					}
 				}

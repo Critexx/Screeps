@@ -3,7 +3,7 @@
  */
 var maxCountMiner = 3;
 var maxCountUpgrader = 3;
-var maxCountBuilder = 2;
+var maxCountBuilder = 1;
 var maxCountRepairer = 1;
 
 var creep = {

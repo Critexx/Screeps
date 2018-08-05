@@ -19,7 +19,7 @@ var roleBuilder = {
             if(container.length > 0) {
                 if(creep.withdraw(container[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(container[0], {visualizePathStyle: {stroke: '#ffaa00'}})}
-            } else{
+            } else {
                 if(creep.carry.energy < creep.carryCapacity) {
                     var sources = creep.room.find(FIND_SOURCES);
                     if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
