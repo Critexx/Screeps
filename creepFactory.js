@@ -57,11 +57,12 @@ function _SetCreepRole(){
  */
 function _SetCreepName(){
     if(creep.memory.role){
-        creep.memory.prefix = role.charAt[0];
+        creep.memory.prefix = creep.memory.role.charAt(0).toUpperCase();
     }else{
         creep.memory.prefix = "unknown";
     }
-    switch(creeo.memory.role){
+    
+    switch(creep.memory.role){
         case RoleEnum.miner: creep.memory.index = ++Memory.lastMiner;
         case RoleEnum.upgrader: creep.memory.index = ++Memory.lastupgrader;
         case RoleEnum.builder: creep.memory.index = ++Memory.lastbuilder;
