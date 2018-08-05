@@ -28,19 +28,19 @@ function _SetCreepRole(){
         return true;
     };
         
-    if(Memory.countBuilder < maxCountBuilder){
+    if(Memory.countBuilderAlive < maxCountBuilder){
         Memory.nextCreepRole = RoleEnum.builder;
         creep.memory.role = RoleEnum.builder
         return true;
     }
         
-    if(Memory.countRepairer < maxCountRepairer){
+    if(Memory.countRepairerAlive < maxCountRepairer){
         Memory.nextCreepRole = RoleEnum.repairer;
         creep.memory.role = RoleEnum.repairer
         return true;
     }
            
-    if(Memory.countUpgrader < maxCountUpgrader)
+    if(Memory.countUpgraderAlive < maxCountUpgrader)
     {
         Memory.nextCreepRole = RoleEnum.upgrader;
         creep.memory.role = RoleEnum.upgrader
